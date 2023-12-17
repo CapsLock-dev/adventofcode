@@ -1,0 +1,78 @@
+int partOne(std::string line)
+{
+    int power = 1;
+    std::unordered_map<std::string, int> minCubes = {
+        {"green", 1},
+        {"blue", 1},
+        {"red", 1}
+    };
+    std::unordered_map<std::string, int> currentCubes = {
+        {"green", 1},
+        {"blue", 1},
+        {"red", 1}
+    };
+    std::string color;
+    std::string digit;
+    int n = 0;
+    while (line[n] != ':') n++;
+    for (int i=n; i<(int)line.length(); i++)
+    {
+        if (std::isdigit(line[i]))
+        {
+            digit.push_back(line[i++]);
+            while (std::isdigit(line[i]))
+            {
+                digit.push_back(line[i++]);
+            }
+            i--;
+        } 
+        else if (std::isalpha(line[i]))
+        {
+            color.push_back(line[i++]);
+            while (std::isalpha(line[i]))
+            {
+                color.push_back(line[i++]);
+            }
+            i--;
+            if (currentCubes.contains(color))
+            {
+                if (currentCubes.at(color) < getDigit(digit))
+                {
+                    currentCubes.at(color) = getDigit(digit);
+                }
+            }
+            color.clear();
+            digit.clear();
+        } 
+        else if (line[i] == ';')
+        {
+            for (auto &pair : minCubes)
+            {
+                std::cout << "biggest " << minCubes.at(pair.first) << ": " << currentCubes.at(pair.first) << "\n" ;
+                if (minCubes.at(pair.first) < currentCubes.at(pair.first))
+                {
+                    minCubes.at(pair.first) = currentCubes.at(pair.first);
+                }
+            }
+            currentCubes = {
+                {"green", 1},
+                {"blue", 1},
+                {"red", 1}
+            };
+            color.clear();
+            digit.clear();
+        }
+    }
+    std::cout << "\n";
+    for (auto &pair : minCubes)
+    {
+        if (minCubes.at(pair.first) < currentCubes.at(pair.first))
+        {
+            minCubes.at(pair.first) = currentCubes.at(pair.first);
+        }
+        power *= pair.second;
+        std::cout << pair.first << " : " << std::to_string(pair.second) << "\n";
+    }
+    std::cout << "power: " << power << "\n";
+    return power;
+}
