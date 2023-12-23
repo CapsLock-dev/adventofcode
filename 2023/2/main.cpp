@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
     {
         sum += partOne(line);
         sum2 += partTwo(line);
+        
     }
     std::cout << "Part One: " << sum << "\n";
     std::cout << "Part Two: " << sum2 << "\n";
@@ -146,7 +147,6 @@ int partTwo(std::string line)
         {
             for (auto &pair : minCubes)
             {
-                std::cout << "biggest " << minCubes.at(pair.first) << ": " << currentCubes.at(pair.first) << "\n" ;
                 if (minCubes.at(pair.first) < currentCubes.at(pair.first))
                 {
                     minCubes.at(pair.first) = currentCubes.at(pair.first);
@@ -161,7 +161,6 @@ int partTwo(std::string line)
             digit.clear();
         }
     }
-    std::cout << "\n";
     for (auto &pair : minCubes)
     {
         if (minCubes.at(pair.first) < currentCubes.at(pair.first))
@@ -169,8 +168,6 @@ int partTwo(std::string line)
             minCubes.at(pair.first) = currentCubes.at(pair.first);
         }
         power *= pair.second;
-        std::cout << pair.first << " : " << std::to_string(pair.second) << "\n";
     }
-    std::cout << "power: " << power << "\n";
     return power;
 }
